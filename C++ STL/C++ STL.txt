@@ -1,0 +1,238 @@
+//C++ 공부(STL)하면서 새롭게 알아낸 함수 등 공부한 것 기록.
+
+(Ctrl+F를 사용하여 사용한 헤더를 기준으로 검색하거나, 함수이름으로 검색)
+
+**************************************************
+#include<algorithm>
+**************************************************
+멤버함수)
+	sort(a,b): a를 포함하고 b를 포함하지 않는 구간을 오름차순으로 정렬(퀵정렬, iterator)
+
+**************************************************
+#include<utility or vector>
+**************************************************
+1. pair
+멤버변수) 
+	first, second
+용도)
+	2차원 배열의 인덱스
+	2차원 좌표평면에서의 좌표
+	정점 번호와 해당 정점 번호까지의 최단거리를 묶어서 저장해야 되는 경우
+사용법)
+	pair를 사용하기 위해서는 <utility>를 include 해야 한다.
+	pair는 다른 컨테이너들에 비해 간단한 구조이기 때문에 멤버함수가 적다.
+예제)
+//pair 선언
+pair<int,int> p;
+pair<char,double> p;
+ 
+//pair 생성
+int a = 1, b = 2;
+pair<int,int> p = make_pair(a,b);
+pair<int,int> p = make_pair(1,2);
+ 
+//pair의 멤버 변수에 접근
+int valA = p.first;
+int valB = p.second;
+
+출처: https://sarah950716.tistory.com/4 [주니어 개발자의 대나무숲]
+**************************************************
+#include<vector>
+**************************************************
+벡터는 사이즈가 유동적인 배열
+멤버함수)
+	v.size(): v의 사이즈(원소의 개수) return
+	v.resize(new_size): v를 new_size로 사이즈 바꿈
+	v.empty(): v의 사이즈가 0인지 아닌지 확인
+	v.begin(): v의 0번째 원소를 가리키는 iterator(원소값 아님) return
+	v.end(): v의 마지막 원소를 가리키는 iterator(원소값 아님) return
+	v.front(): v의 0번째 원소를 return
+	v.back(): v의 마지막 원소를 return
+	v.push_back(val): v의 끝에 val 추가
+	v.pop_back(): v의 마지막 원소를 삭제
+	v.clear(): v의 모든 원소를 삭제
+예시)
+ #include <vector>
+    int main() {
+        vector<int> v1;
+        vector<int> v2(6, 1);
+        vector<int> v3 = {1, 2, 3, 4, 5};
+
+        // .push_back(' ') 을 사용하면 가장 뒤에 데이터를 추가 할 수 있다.
+        vector<int> a = {1, 2, 3, 4, 5};
+        a.push_back(6); // [1, 2, 3, 4, 5, 6]
+        a.push_back(7); // [1, 2, 3, 4, 5, 6, 7]
+        
+        // .pop_back() 은 가장 뒤의 데이터를 꺼내온다.
+        a.pop_back(); // [1, 2, 3, 4, 5, 6]
+
+        // 배열 비우기
+        a.clear(); // []
+
+        // 배열의 길이.. 주로 루프를 돌릴 때 유용
+        a.size();
+
+        // 배열처럼 인덱스를 사용해서 자료 접근 가능
+        for (int i=0; i < a.size(); i++) {
+            cout << a[i] << ' ';
+        }
+
+        // a.begin(), a.end()를 입력하면 iterator 가 반환된다. sort 라이브러리를 쓸 때 유용
+        for (vector<int>::iterator it = a.begin(); it != a.end(); ++it) {
+            cout << *it << ' ';
+        }
+
+        return 0; 
+    }
+
+출처:https://purduecho.github.io/stl/
+**************************************************
+#include<set>
+**************************************************
+사용법)
+	숫자든 문자든 중복을 없앤다.
+	삽입하는 순서에 상관없이 정렬되서 입력이 된다.
+멤버함수(iterator))
+	s.empty(): s가 비어있다면 true, 아니면 false
+	s.size(): s에 저장되어 있는 크기
+	s.max_size(): s가 가질 수 있는 최대 크기
+	s.insert(): s에 값 삽입
+	s.erase(): s에 저장된 요소 삭제
+	s.swap(): s1과 s2를 서로 교환
+	s.clear(): s의 요소들 전부 삭제
+	s.emplace(): move()를 사용해 객체를 저장
+	s.emplace_hint(): 삽입될 위치에 대한 힌트를 토대로 삽입
+	s.begin(): set의 시작이 되는 주소 값 반환
+	s.end(): set의 마지막 부분에 대한 주소 값 반환(정확히는 마지막 뒤 공백 구간)
+	s.rbegin(): set의 마지막 부분을 시작점으로 지정
+	s.rend(): set의 첫번째 부분을 마지막 점으로 지정
+	s.cbegin(): begin()과 동일하지만 const로 설정.
+	s.cend(): end()와 동일하지만 const로 설정
+	s.crbegin(): rbegin()과 동일하지만 const로 설정
+	s.crend(): rend()와 동일하지만 const로 설정
+
+예시1)
+#include <iostream>
+#include <algorithm>
+#include <set>
+ 
+using namespace std;
+ 
+int main(void) {
+ 
+    set<int> s;
+ 
+    s.insert(1);
+    s.insert(200);
+    s.insert(-1);
+    s.insert(3);
+ 
+    for_each(s.begin(), s.end(), [](int n) {
+        cout << n << endl;        //output : -1, 1, 3, 200
+        });
+ 
+    for_each(s.rbegin(), s.rend(), [](int n) {
+        cout << n << endl;        //output : 200, 3, 1, -1
+        });
+    
+ 
+    return 0;
+}
+출처: https://hwan-shell.tistory.com/130
+
+예시2)
+#include <set>
+ 
+using namespace std;
+ 
+int main(void){
+ 
+    set<int> s;
+ 
+    s.insert(5);
+    s.insert(2);
+    s.insert(10);
+    s.insert(1);
+    
+    //output : 1, 2, 5, 10
+    //////////////////////
+ 
+    set<int> s1;
+    
+    s1.emplace(100);
+    s1.emplace(50);
+    s1.emplace(1);
+    s1.emplace(4);
+ 
+    set<int>::iterator itr = s1.emplace_hint(s1.end(), 101); //삽입속도 빠름
+    s1.emplace_hint(itr, 1);    //삽입 속도 느림
+    
+    //output : 1, 4, 50, 100
+    ////////////////////////
+    
+    set<int> s2;
+    s2.insert(10);
+    s2.insert(5);
+    pair<set<int>::iterator, bool> check = s2.insert(10);
+ 
+    if (check.second)
+        cout << "삽입 완료" << endl;
+    else
+        cout << "삽입 실패(중복 값)" << endl;
+    //output : 삽입 완료
+ 
+ 
+    auto check_2 = s2.emplace(12);
+ 
+    if (check_2.second)
+        cout << "삽입 완료" << endl;
+    else
+        cout << "삽입 실패(중복 값)" << endl;
+ 
+    //output : 삽입 실패(중복 값)
+    ///////////////////////////////////////////////////
+ 
+    set<pair<int, int>> s3;
+ 
+    s3.insert(make_pair(1, 2));    //ok!!
+    s3.insert(3, 4);    //error!!
+    
+    s3.emplace(3, 4);     //ok!!
+    s3.emplace(1, 2);   //ok!! put overlap!!
+ 
+    for(auto itr = s3.begin(); itr != s3.end(); itr++)
+        cout << (*itr).first << " " << (*itr).second << endl;
+    //output : (1 2) (3 4)
+ 
+    ////////////////////////////////
+    s1.swap(s2);    //s1 and s2 swap
+ 
+    s3.clear();        //s3 element remove....
+    ////////////////////////////////
+ 
+    set<int> s4 = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+ 
+    s4.erase(s4.find(1));    //output : 2, 3, 4, 5, 6, 7, 8, 9, 10
+ 
+    s4.erase(s4.begin(), s4.find(7));    //output : 7, 8, 9, 10
+ 
+    return 0;
+}
+***
+insert와 emplace는 기본적인 반환 값이 pair<iterator, bool> 입니다.
+즉, pair로 반환이 됩니다.
+여기서 pair.first에는 삽입한 위치에 대한 iterator를 반환하고 
+pair.second에는 삽입 성공여부에 대한 bool 값이 들어가게 됩니다.
+insert와 emplace의 차이는 53행과 55행을 보면 알 수 있는데, 
+insert는 rvalue에 대한 삽입은 안되지만 emplace는 가능한걸 볼 수 있습니다.
+이는 emplace의 move연선자로 인한 불필요한 복사생성자의 호출을 제한하기 때문인데,
+insert는 main에서 복사생성자 호출로 값이 삽입되지만
+emplace는 set객체 내부에서 그 값이 생성되어 복사생성자 호출이 줄어들게됩니다.
+(insert는 복사생성자를 2번 호출, emplace는 1번만 호출)
+이는 c++의 containers library에 있는 모든 자료구조 객체에 있는 기능입니다.
+emplace_hint()에 대한 기능은 21행과 22행에 있는데,
+솔직히 속도에 차이는 얼마나지 않습니다.
+하지만 분명한것은 emplace_hint()에 들어가는 위치에 따라 삽입의 속도는 차이가 있음이 분명합니다.
+
+출처:https://hwan-shell.tistory.com/130
+
