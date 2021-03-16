@@ -6,43 +6,34 @@
 여기 다음부터 작성 혹은 복사,붙여넣기
 ****************************/
 
-/*
-사용언어: C++
-정보: 백준 - 1931번 문제
-*/
-
-
-
 #include <iostream>
+#include <algorithm>
+
+#define MAX 1000
 
 using namespace std;
 
-class meet
-{
-public:
-	int first;
-	int finish;
-};
-
 int main()
 {
-	int n; //n개의 회의
-	int i, j;
-	int count = 0;
+	int n;
+	int time = 0;
+	int result = 0;
+	int times[MAX];
 	cin >> n;
-	meet* meeting = new meet[n];
 
-	for (i = 0; i < n; i++)
+	for (int i = 0; i<n; i++)
+		cin >> times[i];
+
+	//배열을 오름차순으로 정리 여기서 인자값은 iterater(포인터 비스한것...)
+	sort(times, times + n);
+
+	for (int j = 0; j<n; j++)
 	{
-		//시작 시간과 끝시간 입력
-		cin >> meeting[i].first >> meeting[i].finish;
+		time += times[j];
+		result += time;
 	}
 
-	for (i = 0; i < n - 1; i++)
-	{
-		count++;
+	cout << result << endl;
 
-	}
 	return 0;
-
 }
